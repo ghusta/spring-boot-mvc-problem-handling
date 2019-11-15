@@ -1,6 +1,7 @@
 package fr.husta.test.springbootmvcproblemhandling.web.rest;
 
 import fr.husta.test.springbootmvcproblemhandling.domain.User;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,8 +33,8 @@ class UserResourceTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.id").isEqualTo(1)
-                .jsonPath("$.lastName").isEqualTo("Test");
+                .jsonPath("$.id").value(Matchers.not(Matchers.equalTo(1)))
+                .jsonPath("$.lastName").isEqualTo("DOE");
     }
 
 }

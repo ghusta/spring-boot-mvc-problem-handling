@@ -16,6 +16,7 @@ public class UserResource {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        log.debug("START getUserById()");
         User fakeUser = new User();
         fakeUser.setId(99L);
         fakeUser.setLastName("DOE");
