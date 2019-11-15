@@ -8,6 +8,7 @@ class SpringBootMvcProblemHandlingApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// empty test
 	}
 
 }
