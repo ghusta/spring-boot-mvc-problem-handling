@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.zalando.problem.Problem;
+import org.zalando.problem.Status;
 import org.zalando.problem.ThrowableProblem;
 import org.zalando.problem.spring.common.HttpStatusAdapter;
+
+import java.time.Instant;
 
 /**
  * See : https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-controller-advice
@@ -23,10 +26,17 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(CustomValidationException.class)
     public ResponseEntity handleCustomValidationException(CustomValidationException ex /*, WebRequest request */) {
         // ResponseEntity responseEntity = handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        ThrowableProblem problem = Problem.builder()
+                .withDetail(ex.getMessage())
+                .withStatus(Status.BAD_REQUEST)
+                .withTitle(Status.BAD_REQUEST.getReasonPhrase())
+                .with("timestamp", Instant.now())
+                .build();
         ResponseEntity responseEntity = ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE)
-                .body(ex.getMessage());
+                .header("X-Rfc-Implementation", "RFC 7807")
+                .body(problem);
         log.debug("RESP Content-Type = {}", responseEntity.getHeaders().getContentType());
         return responseEntity;
     }

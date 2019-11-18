@@ -20,7 +20,7 @@
         <!-- https://github.com/zalando/problem -->
         <problem.version>0.23.0</problem.version>
         <!-- https://github.com/zalando/problem-spring-web -->
-        <problem-spring-web.version>0.25.2</problem-spring-web.version>
+        <problem-zalando.version>0.25.2</problem-zalando.version>
 
         <!--        <spring-cloud.version>Hoxton.RC2</spring-cloud.version>-->
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
@@ -49,8 +49,8 @@
 
         <dependency>
             <groupId>org.zalando</groupId>
-            <artifactId>problem-spring-webflux</artifactId>
-            <version>${problem-spring-web.version}</version>
+            <artifactId>problem-spring-web-starter</artifactId>
+            <version>${problem-zalando.version}</version>
         </dependency>
 
         <dependency>
