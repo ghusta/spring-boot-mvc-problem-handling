@@ -1,6 +1,7 @@
 package fr.husta.test.springbootmvcproblemhandling.web.rest;
 
 import fr.husta.test.springbootmvcproblemhandling.domain.User;
+import fr.husta.test.springbootmvcproblemhandling.error.CustomValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,8 +21,14 @@ public class UserResource {
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         log.debug("START getUserById()");
 
+        if (id == 404) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("ID %d non trouvé", id));
+        }
         if (id == 999) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID 999 invalide");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("ID %d invalide", id));
+        }
+        if (id == 9999) {
+            throw new CustomValidationException(String.format("ID %d invalide", id));
         }
 
         User fakeUser = new User();

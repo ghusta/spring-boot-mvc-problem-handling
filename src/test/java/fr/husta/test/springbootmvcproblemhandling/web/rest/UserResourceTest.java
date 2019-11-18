@@ -1,12 +1,12 @@
 package fr.husta.test.springbootmvcproblemhandling.web.rest;
 
-import fr.husta.test.springbootmvcproblemhandling.domain.User;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -19,10 +19,6 @@ class UserResourceTest {
 
     @BeforeEach
     void setUp() {
-        User user = new User();
-        user.setId(1L);
-        user.setLastName("TEST");
-        user.setFirstName("Toto");
     }
 
     @Test
@@ -38,6 +34,15 @@ class UserResourceTest {
     }
 
     @Test
+    void testGetUserById_exception404() {
+        webClient
+                .get()
+                .uri("/api/users/{id}", 404)
+                .exchange()
+                .expectStatus().is4xxClientError();
+    }
+
+    @Test
     void testGetUserById_exception999() {
         webClient
                 .get()
@@ -47,7 +52,17 @@ class UserResourceTest {
     }
 
     @Test
-    public void testUrlNotMatching() {
+    void testGetUserById_exception9999() {
+        webClient
+                .get()
+                .uri("/api/users/{id}", 9999)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
+    }
+
+    @Test
+    void testUrlNotMatching() {
         webClient
                 .get()
                 .uri("/api/usersssss/{id}", 123)
