@@ -42,7 +42,7 @@ public class UserResourceMockServerTest {
 
         webClient = WebTestClient
                 .bindToServer()
-                .baseUrl(String.format("http://localhost:%d", wireMockServer.port()))
+                .baseUrl(wireMockServer.baseUrl())
                 .build();
     }
 
