@@ -6,13 +6,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.zalando.problem.Problem;
 import org.zalando.problem.ThrowableProblem;
 import org.zalando.problem.spring.common.HttpStatusAdapter;
 
-@RestControllerAdvice(/*basePackages = "fr.husta.test.springbootmvcproblemhandling.web.rest"*/)
+/**
+ * See : https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-controller-advice
+ */
+@RestControllerAdvice(annotations = RestController.class)
 @Slf4j
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
