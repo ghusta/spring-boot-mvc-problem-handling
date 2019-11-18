@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-@WebFluxTest
+@WebFluxTest(controllers = UserResource.class)
 @ExtendWith(SpringExtension.class)
 class UserResourceTest {
 
@@ -35,6 +35,24 @@ class UserResourceTest {
                 .expectBody()
                 .jsonPath("$.id").value(Matchers.not(Matchers.equalTo(1)))
                 .jsonPath("$.lastName").isEqualTo("DOE");
+    }
+
+    @Test
+    void testGetUserById_exception999() {
+        webClient
+                .get()
+                .uri("/api/users/{id}", 999)
+                .exchange()
+                .expectStatus().is4xxClientError();
+    }
+
+    @Test
+    public void testUrlNotMatching() {
+        webClient
+                .get()
+                .uri("/api/usersssss/{id}", 123)
+                .exchange()
+                .expectStatus().isNotFound();
     }
 
 }

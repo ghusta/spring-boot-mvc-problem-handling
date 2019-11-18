@@ -2,12 +2,14 @@ package fr.husta.test.springbootmvcproblemhandling.web.rest;
 
 import fr.husta.test.springbootmvcproblemhandling.domain.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(path = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -17,6 +19,11 @@ public class UserResource {
     @GetMapping(path = "/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         log.debug("START getUserById()");
+
+        if (id == 999) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID 999 invalide");
+        }
+
         User fakeUser = new User();
         fakeUser.setId(99L);
         fakeUser.setLastName("DOE");
