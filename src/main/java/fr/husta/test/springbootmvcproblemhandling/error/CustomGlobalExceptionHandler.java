@@ -27,6 +27,14 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return responseEntity;
     }
 
+    @ExceptionHandler(TeapotException.class)
+    public ResponseEntity handleTeapotException(TeapotException ex) {
+        return ResponseEntity
+                .status(HttpStatus.I_AM_A_TEAPOT)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .body(ex.getMessage());
+    }
+
     private ThrowableProblem buildProblem(Exception ex) {
         return Problem.builder()
                 .withDetail(ex.getMessage())

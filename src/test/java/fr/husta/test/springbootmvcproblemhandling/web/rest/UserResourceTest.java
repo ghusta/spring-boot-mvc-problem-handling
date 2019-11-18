@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -40,6 +41,15 @@ class UserResourceTest {
                 .uri("/api/users/{id}", 404)
                 .exchange()
                 .expectStatus().is4xxClientError();
+    }
+
+    @Test
+    void testGetUserById_exception418() {
+        webClient
+                .get()
+                .uri("/api/users/{id}", 418)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.I_AM_A_TEAPOT);
     }
 
     @Test

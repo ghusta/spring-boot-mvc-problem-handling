@@ -2,6 +2,7 @@ package fr.husta.test.springbootmvcproblemhandling.web.rest;
 
 import fr.husta.test.springbootmvcproblemhandling.domain.User;
 import fr.husta.test.springbootmvcproblemhandling.error.CustomValidationException;
+import fr.husta.test.springbootmvcproblemhandling.error.TeapotException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,9 @@ public class UserResource {
 
         if (id == 404) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("ID %d non trouvé", id));
+        }
+        if (id == 418) {
+            throw new TeapotException(HttpStatus.I_AM_A_TEAPOT.getReasonPhrase());
         }
         if (id == 999) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("ID %d invalide", id));
