@@ -21,7 +21,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 /**
  * See : https://cloud.spring.io/spring-cloud-static/spring-cloud-contract/1.1.2.RELEASE/#_spring_cloud_contract_wiremock
  */
-@WebFluxTest
+@WebFluxTest(controllers = UserResource.class)
 @RunWith(SpringRunner.class)
 public class UserResourceMockServerTest {
 
@@ -64,6 +64,7 @@ public class UserResourceMockServerTest {
         webClient
                 .get()
                 .uri("/api/users/{id}", 123)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
