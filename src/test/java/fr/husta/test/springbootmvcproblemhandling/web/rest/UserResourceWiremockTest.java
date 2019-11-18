@@ -51,7 +51,7 @@ public class UserResourceWiremockTest {
 
     @Test
     public void testUrlNotMatching() {
-        WireMock.stubFor(get(urlEqualTo("/api/users/123"))
+        WireMock.stubFor(get(urlEqualTo("/api/usersssss/123"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.NOT_FOUND.value()))
         );

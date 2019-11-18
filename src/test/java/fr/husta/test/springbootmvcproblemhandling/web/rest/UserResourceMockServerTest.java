@@ -1,0 +1,109 @@
+package fr.husta.test.springbootmvcproblemhandling.web.rest;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.Options;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.reactive.server.WebTestClient;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+
+/**
+ * See : https://cloud.spring.io/spring-cloud-static/spring-cloud-contract/1.1.2.RELEASE/#_spring_cloud_contract_wiremock
+ */
+@WebFluxTest
+@RunWith(SpringRunner.class)
+public class UserResourceMockServerTest {
+
+    //    @Autowired
+    private WebTestClient webClient;
+
+    private WireMockServer wireMockServer;
+
+    @Before
+    public void setUp() throws Exception {
+        WireMockConfiguration options = WireMockConfiguration.options()
+                .dynamicPort()
+                .bindAddress(Options.DEFAULT_BIND_ADDRESS);
+        wireMockServer = new WireMockServer(options);
+
+        // See also :  com.github.tomakehurst.wiremock.junit.WireMockRule
+        wireMockServer.start();
+
+        webClient = WebTestClient
+                .bindToServer()
+                .baseUrl(String.format("http://localhost:%d", wireMockServer.port()))
+                .build();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        wireMockServer.stop();
+    }
+
+    @Test
+    public void testGetUserById() {
+        String jsonResponse = "{ \"id\": 123, \"lastName\": \"Test\" }";
+        wireMockServer.stubFor(get(urlEqualTo("/api/users/123"))
+                .willReturn(aResponse()
+                        .withBody(jsonResponse)
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withStatus(HttpStatus.OK.value()))
+        );
+
+        webClient
+                .get()
+                .uri("/api/users/{id}", 123)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(123)
+                .jsonPath("$.lastName").isEqualTo("Test");
+    }
+
+    @Test
+    public void testUrlNotMatching() {
+        wireMockServer.stubFor(get(urlEqualTo("/api/usersssss/123"))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.NOT_FOUND.value()))
+        );
+
+        webClient
+                .get()
+                .uri("/api/usersssss/{id}", 123)
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody().isEmpty();
+    }
+
+    @Test
+    public void testGetUserById_badRequest() {
+        String jsonResponse = "{\"error\" : \"Invalid request\"}";
+        wireMockServer.stubFor(get(urlEqualTo("/api/users/999"))
+                .willReturn(aResponse()
+                        .withBody(jsonResponse)
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                        .withStatus(HttpStatus.BAD_REQUEST.value()))
+        );
+
+        webClient
+                .get()
+                .uri("/api/users/{id}", 999)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.error").isEqualTo("Invalid request");
+    }
+
+}
