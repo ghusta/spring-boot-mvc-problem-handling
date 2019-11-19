@@ -1,6 +1,7 @@
 package fr.husta.test.springbootmvcproblemhandling.problem.advice;
 
 import fr.husta.test.springbootmvcproblemhandling.error.TeapotException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -17,7 +18,9 @@ public interface TeapotExceptionAdviceTrait extends AdviceTrait {
     default ResponseEntity<Problem> handleUnsupportedOperation(
             final TeapotException exception,
             final NativeWebRequest request) {
-        return create(Status.I_AM_A_TEAPOT, exception, request);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("X-Rfc-Implementation", "RFC 7807");
+        return create(Status.I_AM_A_TEAPOT, exception, request, httpHeaders);
     }
 
 }
