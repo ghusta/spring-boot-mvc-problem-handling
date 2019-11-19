@@ -4,6 +4,8 @@ import fr.husta.test.springbootmvcproblemhandling.domain.User;
 import fr.husta.test.springbootmvcproblemhandling.error.CustomValidationException;
 import fr.husta.test.springbootmvcproblemhandling.error.TeapotException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.lang.annotation.ElementType;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,6 +47,11 @@ public class UserResource {
         if (id == 501) {
             throw new UnsupportedOperationException("Not yet implemented !");
         }
+        if (id == 888) {
+            // Bean Validation
+            ConstraintViolation cv = createConstraintViolation();
+            throw new ConstraintViolationException(Set.<ConstraintViolation<?>>of(cv));
+        }
 
         User fakeUser = new User();
         fakeUser.setId(99L);
@@ -47,6 +59,12 @@ public class UserResource {
         fakeUser.setFirstName("John");
 
         return ResponseEntity.ok(fakeUser);
+    }
+
+    private ConstraintViolation createConstraintViolation() {
+        return ConstraintViolationImpl.forBeanValidation("aaa", null, null,
+                "Arghhh ! Invalid value", null, null, null, "Albert",
+                PathImpl.createPathFromString("x.y"), null, ElementType.FIELD, null);
     }
 
 }
