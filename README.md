@@ -16,9 +16,9 @@ Problem / Exceptions Handling with Spring Boot MVC
   * https://www.baeldung.com/problem-spring-web
   * [Problems for Spring MVC and Spring WebFlux](https://github.com/zalando/problem-spring-web)
   * [Starter for Spring Boot](https://github.com/zalando/problem-spring-web/tree/master/problem-spring-web-starter), using [@Autoconfigure](https://github.com/zalando/problem-spring-web/tree/master/problem-spring-web-autoconfigure)
-  
+  * In Restful API guidelines : [Use Problem JSON [176]](https://opensource.zalando.com/restful-api-guidelines/#176)
+
 * Tests with Spring
   * WebClient
     * [WebTestClient](https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/testing.html#webtestclient)
       * [Writing Tests](https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/testing.html#webtestclient-tests)
-  
