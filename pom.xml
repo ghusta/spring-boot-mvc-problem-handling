@@ -17,6 +17,8 @@
     <properties>
         <java.version>11</java.version>
 
+        <!-- https://github.com/zalando/problem -->
+        <problem.version>0.23.0</problem.version>
         <!-- https://github.com/zalando/problem-spring-web -->
         <problem-spring-web.version>0.25.2</problem-spring-web.version>
 
