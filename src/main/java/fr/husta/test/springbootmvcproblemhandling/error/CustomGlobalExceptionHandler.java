@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.zalando.problem.Problem;
+import org.zalando.problem.Status;
 import org.zalando.problem.ThrowableProblem;
-import org.zalando.problem.spring.common.HttpStatusAdapter;
 
 /**
  * See : https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-controller-advice
@@ -50,7 +50,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return Problem.builder()
                 .withDetail(ex.getMessage())
                 .withTitle(ex.getClass().getSimpleName())
-                .withStatus(new HttpStatusAdapter(httpStatus))
+                .withStatus(Status.valueOf(httpStatus.value()))
                 .build();
     }
 
