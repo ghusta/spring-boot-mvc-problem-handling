@@ -17,6 +17,10 @@ Problem / Exceptions Handling with Spring Boot MVC
   * [Problems for Spring MVC and Spring WebFlux](https://github.com/zalando/problem-spring-web)
   * [Starter for Spring Boot](https://github.com/zalando/problem-spring-web/tree/master/problem-spring-web-starter), using [@Autoconfigure](https://github.com/zalando/problem-spring-web/tree/master/problem-spring-web-autoconfigure)
   * In Restful API guidelines : [Use Problem JSON [176]](https://opensource.zalando.com/restful-api-guidelines/#176)
+* RFC 7807
+  * RFC 7807 : [Problem Details for HTTP APIs](https://tools.ietf.org/html/rfc7807)
+  * GitHub projects [tagged with rfc7807](https://github.com/topics/rfc7807)
+  * [Bortzmeyer's blog post on RFC 7807](https://www.bortzmeyer.org/7807.html) 🇫🇷
 
 * Tests with Spring
   * WebClient
