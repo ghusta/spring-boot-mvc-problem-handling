@@ -11,7 +11,7 @@ Problem / Exceptions Handling with Spring Boot MVC
   * https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc#global-exception-handling
   * https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-exceptionhandler
   * https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-rest-exceptions
-* With [Zalando Problem](https://github.com/zalando/problem) library :
+* With [Zalando Problem](https://github.com/zalando/problem) library (implementing RFC 7807) :
   * https://github.com/zalando/problem
   * https://www.baeldung.com/problem-spring-web
   * [Problems for Spring MVC and Spring WebFlux](https://github.com/zalando/problem-spring-web)
