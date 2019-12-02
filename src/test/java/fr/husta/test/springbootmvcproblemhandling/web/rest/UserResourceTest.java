@@ -72,6 +72,15 @@ class UserResourceTest {
     }
 
     @Test
+    void testGetUserById_exception500() {
+        webClient
+                .get()
+                .uri("/api/users/{id}", 500)
+                .exchange()
+                .expectStatus().is5xxServerError();
+    }
+
+    @Test
     void testUrlNotMatching() {
         webClient
                 .get()

@@ -34,6 +34,9 @@ public class UserResource {
         if (id == 9999) {
             throw new CustomValidationException(String.format("ID %d invalide", id));
         }
+        if (id == 500) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         User fakeUser = new User();
         fakeUser.setId(99L);
