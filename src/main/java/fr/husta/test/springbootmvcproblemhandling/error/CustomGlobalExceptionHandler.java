@@ -44,6 +44,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return ResponseEntity
                 .status(HttpStatus.NOT_IMPLEMENTED)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .header("X-Implements-RFC", "7807") // custom header
                 .body(buildProblem(ex, HttpStatus.NOT_IMPLEMENTED));
     }
 

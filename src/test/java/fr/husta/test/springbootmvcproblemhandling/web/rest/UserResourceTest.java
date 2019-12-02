@@ -88,6 +88,7 @@ class UserResourceTest {
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.NOT_IMPLEMENTED)
                 .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .expectHeader().exists("X-Implements-RFC")
                 .expectBody()
                     .jsonPath("$.title").isNotEmpty()
                     .jsonPath("$.detail").isNotEmpty();
