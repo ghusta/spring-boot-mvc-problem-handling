@@ -11,8 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-@WebFluxTest(controllers = UserResource.class)
 @ExtendWith(SpringExtension.class)
+@WebFluxTest(controllers = UserResource.class)
 class UserResourceTest {
 
     @Autowired
@@ -87,7 +87,10 @@ class UserResourceTest {
                 .uri("/api/users/{id}", 501)
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.NOT_IMPLEMENTED)
-                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .expectBody()
+                    .jsonPath("$.title").isNotEmpty()
+                    .jsonPath("$.detail").isNotEmpty();
     }
 
     @Test
