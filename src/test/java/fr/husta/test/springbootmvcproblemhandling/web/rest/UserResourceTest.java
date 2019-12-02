@@ -81,6 +81,16 @@ class UserResourceTest {
     }
 
     @Test
+    void testGetUserById_exception501() {
+        webClient
+                .get()
+                .uri("/api/users/{id}", 501)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.NOT_IMPLEMENTED)
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
+    }
+
+    @Test
     void testUrlNotMatching() {
         webClient
                 .get()

@@ -37,6 +37,9 @@ public class UserResource {
         if (id == 500) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        if (id == 501) {
+            throw new UnsupportedOperationException("Not yet implemented !");
+        }
 
         User fakeUser = new User();
         fakeUser.setId(99L);

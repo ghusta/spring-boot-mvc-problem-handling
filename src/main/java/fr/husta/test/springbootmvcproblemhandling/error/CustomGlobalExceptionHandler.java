@@ -39,6 +39,14 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(UnsupportedOperationException.class)
+    public ResponseEntity handleUnsupportedOperationException(UnsupportedOperationException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_IMPLEMENTED)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .body(buildProblem(ex, HttpStatus.NOT_IMPLEMENTED));
+    }
+
     private ThrowableProblem buildProblem(Exception ex) {
         return Problem.builder()
                 .withDetail(ex.getMessage())
