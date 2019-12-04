@@ -11,3 +11,7 @@ Problem / Exceptions Handling with Spring Boot MVC
   * https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-exceptionhandler
   * https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-rest-exceptions
   
+* Tests with Spring
+  * WebClient
+    * [WebTestClient](https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/testing.html#webtestclient)
+      * [Writing Tests](https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/testing.html#webtestclient-tests)
