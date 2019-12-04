@@ -9,7 +9,11 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.zalando.problem.Problem;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = UserResource.class)
@@ -90,8 +94,27 @@ class UserResourceTest {
                 .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
                 .expectHeader().exists("X-Implements-RFC")
                 .expectBody()
-                    .jsonPath("$.title").isNotEmpty()
-                    .jsonPath("$.detail").isNotEmpty();
+                .jsonPath("$.title").isNotEmpty()
+                .jsonPath("$.detail").isNotEmpty();
+    }
+
+    @Test
+    void testGetUserById_exception501_bodyProblem() {
+        EntityExchangeResult<Problem> returnResult = webClient
+                .get()
+                .uri("/api/users/{id}", 501)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.NOT_IMPLEMENTED)
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .expectHeader().exists("X-Implements-RFC")
+                .expectBody(Problem.class).returnResult();
+
+        Problem pb = returnResult.getResponseBody();
+        assertThat(pb).isNotNull();
+        assertThat(pb.getTitle()).isEqualTo("UnsupportedOperationException");
+        assertThat(pb.getDetail()).isEqualTo("Not yet implemented !");
+        assertThat(pb.getStatus()).isNotNull();
+        assertThat(pb.getStatus().getStatusCode()).isEqualTo(HttpStatus.NOT_IMPLEMENTED.value());
     }
 
     @Test
