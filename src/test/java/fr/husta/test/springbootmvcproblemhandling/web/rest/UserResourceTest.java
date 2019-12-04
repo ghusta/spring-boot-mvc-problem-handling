@@ -29,8 +29,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_noMock() {
         webClient
-                .get()
-                .uri("/api/users/{id}", 123)
+                .get().uri("/api/users/{id}", 123)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
@@ -41,8 +40,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_exception404() {
         webClient
-                .get()
-                .uri("/api/users/{id}", 404)
+                .get().uri("/api/users/{id}", 404)
                 .exchange()
                 .expectStatus().is4xxClientError();
     }
@@ -50,8 +48,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_exception418() {
         webClient
-                .get()
-                .uri("/api/users/{id}", 418)
+                .get().uri("/api/users/{id}", 418)
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.I_AM_A_TEAPOT);
     }
@@ -59,8 +56,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_exception999() {
         webClient
-                .get()
-                .uri("/api/users/{id}", 999)
+                .get().uri("/api/users/{id}", 999)
                 .exchange()
                 .expectStatus().is4xxClientError();
     }
@@ -68,8 +64,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_exception9999() {
         webClient
-                .get()
-                .uri("/api/users/{id}", 9999)
+                .get().uri("/api/users/{id}", 9999)
                 .exchange()
                 .expectStatus().isBadRequest()
                 .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
@@ -78,8 +73,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_exception500() {
         webClient
-                .get()
-                .uri("/api/users/{id}", 500)
+                .get().uri("/api/users/{id}", 500)
                 .exchange()
                 .expectStatus().is5xxServerError();
     }
@@ -87,8 +81,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_exception501() {
         webClient
-                .get()
-                .uri("/api/users/{id}", 501)
+                .get().uri("/api/users/{id}", 501)
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.NOT_IMPLEMENTED)
                 .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
@@ -101,8 +94,7 @@ class UserResourceTest {
     @Test
     void testGetUserById_exception501_bodyProblem() {
         EntityExchangeResult<Problem> returnResult = webClient
-                .get()
-                .uri("/api/users/{id}", 501)
+                .get().uri("/api/users/{id}", 501)
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.NOT_IMPLEMENTED)
                 .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
@@ -120,8 +112,7 @@ class UserResourceTest {
     @Test
     void testUrlNotMatching() {
         webClient
-                .get()
-                .uri("/api/usersssss/{id}", 123)
+                .get().uri("/api/usersssss/{id}", 123)
                 .exchange()
                 .expectStatus().isNotFound();
     }
