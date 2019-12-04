@@ -42,7 +42,7 @@ class UserResourceTest {
         webClient
                 .get().uri("/api/users/{id}", 404)
                 .exchange()
-                .expectStatus().is4xxClientError();
+                .expectStatus().isNotFound();
     }
 
     @Test
