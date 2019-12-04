@@ -14,11 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static fr.husta.test.springbootmvcproblemhandling.web.reactive.function.client.MyExchangeFilterFunctions.logRequest;
 
 /**
  * See : https://cloud.spring.io/spring-cloud-static/spring-cloud-contract/1.1.2.RELEASE/#_spring_cloud_contract_wiremock
@@ -48,17 +48,6 @@ public class UserResourceMockServerTest {
                 .baseUrl(wireMockServer.baseUrl())
                 .filter(logRequest())
                 .build();
-    }
-
-    /**
-     * See : https://www.callicoder.com/spring-5-reactive-webclient-webtestclient-examples/#2-logging-all-the-requests-using-a-filter-function
-     */
-    private ExchangeFilterFunction logRequest() {
-        return (request, next) -> {
-            HttpHeaders headers = request.headers();
-            log.info("Request : {} - {}", request.method(), request.url());
-            return next.exchange(request);
-        };
     }
 
     @After
