@@ -58,7 +58,8 @@ class UserResourceTest {
         webClient
                 .get().uri("/api/users/{id}", 999)
                 .exchange()
-                .expectStatus().is4xxClientError();
+                .expectStatus().is4xxClientError() // redundant, for testing
+                .expectStatus().isBadRequest();
     }
 
     @Test
