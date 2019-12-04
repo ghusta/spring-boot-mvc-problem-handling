@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Slf4j
 public class UserResource {
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         log.debug("START getUserById()");
 
