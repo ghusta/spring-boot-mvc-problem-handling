@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 import org.zalando.problem.spring.web.advice.AdviceTrait;
@@ -14,8 +15,8 @@ import org.zalando.problem.spring.web.advice.AdviceTrait;
  */
 public interface TeapotExceptionAdviceTrait extends AdviceTrait {
 
-    @ExceptionHandler
-    default ResponseEntity<Problem> handleUnsupportedOperation(
+    @ExceptionHandler(TeapotException.class)
+    default ResponseEntity<Problem> handleTeapotException(
             final TeapotException exception,
             final NativeWebRequest request) {
         HttpHeaders httpHeaders = new HttpHeaders();
