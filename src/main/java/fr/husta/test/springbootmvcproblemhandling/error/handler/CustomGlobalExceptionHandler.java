@@ -1,5 +1,7 @@
-package fr.husta.test.springbootmvcproblemhandling.error;
+package fr.husta.test.springbootmvcproblemhandling.error.handler;
 
+import fr.husta.test.springbootmvcproblemhandling.error.CustomValidationException;
+import fr.husta.test.springbootmvcproblemhandling.error.TeapotException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
