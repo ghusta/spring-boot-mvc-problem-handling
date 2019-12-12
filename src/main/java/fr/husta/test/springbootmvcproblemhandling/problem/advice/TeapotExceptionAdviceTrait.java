@@ -20,7 +20,8 @@ public interface TeapotExceptionAdviceTrait extends AdviceTrait {
             final TeapotException exception,
             final NativeWebRequest request) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("X-Rfc-Implementation", "RFC 7807");
+        // See : https://www.keycdn.com/support/custom-http-headers
+        httpHeaders.set("Custom-Implements-RFC", "RFC 7807");
         return create(Status.I_AM_A_TEAPOT, exception, request, httpHeaders);
     }
 
