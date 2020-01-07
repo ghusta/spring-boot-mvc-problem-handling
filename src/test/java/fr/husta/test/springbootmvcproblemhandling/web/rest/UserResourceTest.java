@@ -68,7 +68,10 @@ class UserResourceTest {
                 .uri("/api/users/{id}", 9999)
                 .exchange()
                 .expectStatus().isBadRequest()
-                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.detail").isNotEmpty()
+                .jsonPath("$.title").isEqualTo("CustomValidationException");
     }
 
     @Test

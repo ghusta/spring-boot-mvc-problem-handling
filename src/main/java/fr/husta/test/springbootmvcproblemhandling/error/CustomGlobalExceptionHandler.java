@@ -22,11 +22,19 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(CustomValidationException.class)
     public ResponseEntity handleCustomValidationException(CustomValidationException ex /*, WebRequest request */) {
+        // Build a Problem object ?
+        ThrowableProblem problem = Problem.builder()
+                .withDetail(ex.getMessage())
+                .withTitle(ex.getClass().getSimpleName())
+                .withStatus(Status.valueOf(HttpStatus.BAD_REQUEST.value()))
+                .build();
+
         // ResponseEntity responseEntity = handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         ResponseEntity responseEntity = ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE)
-                .body(ex.getMessage());
+                // .body(ex.getMessage());
+                .body(problem);
         log.debug("RESP Content-Type = {}", responseEntity.getHeaders().getContentType());
         return responseEntity;
     }
